@@ -8,7 +8,8 @@
         /* --- ESTILOS GENERALES --- */
         body {
             margin: 0;
-            padding: 0;
+            padding: 40px 20px; /* Un poco de espacio arriba y abajo para móviles */
+            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
             display: flex;
@@ -17,7 +18,7 @@
             justify-content: center;
             text-align: center;
             color: #333;
-            overflow: hidden;
+            overflow-x: hidden; /* EL FIX: Solo oculta el scroll horizontal, pero deja bajar */
             background: linear-gradient(to bottom right, #fdf2f8, #fce7f3);
         }
 
@@ -40,7 +41,7 @@
             animation-timing-function: linear;
             font-weight: bold;
             text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
-            white-space: nowrap; /* Evita que los textos largos se corten */
+            white-space: nowrap;
         }
 
         @keyframes fall {
@@ -55,51 +56,54 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            max-width: 90%;
+            width: 100%;
+            max-width: 500px; /* Para que no se estire demasiado en PC */
         }
 
         /* --- VISTA PRINCIPAL (Contador) --- */
         h1 {
-            font-size: 3.5rem;
+            font-size: 2.5rem; /* Un poco más pequeño para móvil */
             color: #db2777;
             margin-bottom: 15px;
             text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
             background-color: rgba(255, 255, 255, 0.7);
-            padding: 15px 30px;
+            padding: 15px 20px;
             border-radius: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .photo-container img {
-            width: 300px;
-            height: 300px;
+            width: 220px; /* Reducido para que quepa bien en celular */
+            height: 220px;
             object-fit: cover;
             border-radius: 50%;
             border: 8px solid #fbcfe8;
             box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            margin: 20px 0;
+            margin: 15px 0;
             background-color: white;
         }
 
         .countdown-container {
             background: rgba(255, 255, 255, 0.9);
-            padding: 25px 45px;
+            padding: 20px 25px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            margin-top: 20px;
+            margin-top: 15px;
             border: 3px solid #fbcfe8;
             backdrop-filter: blur(5px);
+            width: 90%;
+            box-sizing: border-box;
         }
 
         #timer {
-            font-size: 2.8rem;
+            font-size: 2rem; /* Adaptado a pantallas pequeñas */
             font-weight: 800;
             color: #4f46e5;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         .message {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: #555;
             margin: 0 0 10px 0;
@@ -108,8 +112,8 @@
         /* --- BOTONES --- */
         .btn {
             margin-top: 25px;
-            padding: 12px 25px;
-            font-size: 1.1rem;
+            padding: 15px 25px; /* Botón más gordito para darle fácil con el dedo */
+            font-size: 1rem;
             font-weight: bold;
             color: white;
             background-color: #db2777;
@@ -120,36 +124,40 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
+            width: 90%;
+            max-width: 350px;
+            line-height: 1.4;
         }
 
-        .btn:hover {
+        .btn:hover, .btn:active {
             background-color: #be185d;
-            transform: translateY(-3px) scale(1.05);
+            transform: translateY(-3px) scale(1.02);
             box-shadow: 0 8px 20px rgba(219, 39, 119, 0.6);
         }
 
         /* --- VISTA SECRETA (Sorpresa) --- */
         #secret-view {
-            display: none; /* Oculto al inicio */
+            display: none; 
             background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
+            padding: 30px 20px;
             border-radius: 25px;
             border: 4px dashed #db2777;
             box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            max-width: 600px;
+            width: 90%;
+            box-sizing: border-box;
         }
 
         #secret-view h2 {
             color: #db2777;
-            font-size: 2.2rem;
-            margin-bottom: 20px;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
         }
 
         #secret-view p {
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             color: #4f46e5;
             font-weight: bold;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
     </style>
@@ -170,74 +178,66 @@
             <div id="timer">Calculando...</div>
         </div>
 
-        <button class="btn" id="btn-surprise">Ver mi regalo antes de tiempo click aquí XD</button>
+        <button class="btn" id="btn-surprise">Ver mi regalo antes de tiempo click aquí 🤫</button>
     </div>
 
     <div class="view-container" id="secret-view">
-        <h2>¡Eres muy muy curiosa mi ratoncita kurylov3!</h2>
-        <p>Solo te digo que tu carrito de la compra de MercadoLibre no esté vacío para el 22 de febrero...digo quien sabe a lo mejor todo lo que tengas añadido que no pase en total de 80€ alguien te lo puede comprar toditito ya sea maquillaje, chocolates toditito</p>
+        <h2>¡Eres muy muy curiosa mi ratoncita kurylov3! 🐭❤️</h2>
+        <p>Solo te digo que tu carrito de la compra de MercadoLibre no esté vacío para el 22 de febrero... 😉🛍️🎁</p>
         
-        <button class="btn" id="btn-back">Volver al contador </button>
+        <button class="btn" id="btn-back">Volver al contador ⏰</button>
     </div>
 
     <script>
-        // Dos listas de cosas para llover
         const lluviaNormal = ['🎁', '💸', '🍫', '💰', '🍬', '💵', '🎉'];
         const lluviaRomantica = ['Te amo ❤️', 'Mi ratoncita 🐭', '😍', 'Te adoro ✨', '💕', '🛍️ MercadoLibre', '💖'];
         
-        // Empieza con la normal
         let elementosLluvia = lluviaNormal;
 
-        // Función que crea la lluvia
         function createRain() {
             const container = document.getElementById('rain-container');
             const item = document.createElement('div');
             item.classList.add('falling-item');
 
-            // Elegir un elemento al azar de la lista actual
             const textoLluvia = elementosLluvia[Math.floor(Math.random() * elementosLluvia.length)];
             item.innerText = textoLluvia;
 
-            // Diferenciar si es texto o emoji para el tamaño y color
             if (textoLluvia.length > 2) {
-                item.style.fontSize = (Math.random() * 10 + 18) + 'px'; // Texto un poco más pequeño
-                item.style.color = '#db2777'; // Color rosa para el texto
+                item.style.fontSize = (Math.random() * 8 + 16) + 'px'; 
+                item.style.color = '#db2777'; 
             } else {
-                item.style.fontSize = (Math.random() * 20 + 25) + 'px'; // Emojis más grandes
+                item.style.fontSize = (Math.random() * 15 + 20) + 'px'; 
             }
 
-            // Aleatorizar posición, tamaño y velocidad
-            item.style.left = Math.random() * 95 + 'vw';
+            item.style.left = Math.random() * 90 + 'vw';
             const duration = Math.random() * 4 + 4; 
             item.style.animationDuration = duration + 's';
             
             container.appendChild(item);
 
-            // Eliminar elemento después de caer
             setTimeout(() => {
                 item.remove();
             }, duration * 1000);
         }
 
-        // Llover cada 350 milisegundos
         setInterval(createRain, 350);
 
         // --- LÓGICA DE LOS BOTONES ---
         const mainView = document.getElementById('main-view');
         const secretView = document.getElementById('secret-view');
 
-        // Cuando hace click en "Ver regalo"
         document.getElementById('btn-surprise').addEventListener('click', () => {
-            mainView.style.display = 'none'; // Oculta contador
-            secretView.style.display = 'flex'; // Muestra secreto
-            elementosLluvia = lluviaRomantica; // Cambia la lluvia a cosas románticas
+            mainView.style.display = 'none'; 
+            secretView.style.display = 'flex'; 
+            elementosLluvia = lluviaRomantica; 
+            window.scrollTo(0, 0); // Te manda arriba al cambiar de vista por si habías bajado
         });
 
-        // Cuando hace click en "Volver"
         document.getElementById('btn-back').addEventListener('click', () => {
-            secretView.style.display = 'none'; // Oculta secreto
-            mainView.style.display = 'flex'; // Muestra contador
-            elementosLluvia = lluviaNormal; // Vuelve la lluvia de dinero/regalos
+            secretView.style.display = 'none'; 
+            mainView.style.display = 'flex'; 
+            elementosLluvia = lluviaNormal; 
+            window.scrollTo(0, 0);
         });
     </script>
 
@@ -262,7 +262,7 @@
 
             if (distance < 0) {
                 clearInterval(updateTimer);
-                document.getElementById("timer").innerHTML = "¡ES HOY! 🥳🎉🎁💸";
+                document.getElementById("timer").innerHTML = "¡ES HOY! 🥳🎉🎁";
                 document.querySelector(".message").style.display = "none";
             }
         }, 1000);
