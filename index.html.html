@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumpleaños Monse!</title>
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #333;
+            overflow: hidden;
+            background: linear-gradient(to bottom right, #fdf2f8, #fce7f3);
+        }
+
+        /* --- ESTILOS DE LA LLUVIA --- */
+        #rain-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .falling-item {
+            position: absolute;
+            top: -50px;
+            user-select: none;
+            animation-name: fall;
+            animation-timing-function: linear;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+            white-space: nowrap; /* Evita que los textos largos se corten */
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- CONTENEDORES PRINCIPALES --- */
+        .view-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 90%;
+        }
+
+        /* --- VISTA PRINCIPAL (Contador) --- */
+        h1 {
+            font-size: 3.5rem;
+            color: #db2777;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 15px 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .photo-container img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 8px solid #fbcfe8;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            margin: 20px 0;
+            background-color: white;
+        }
+
+        .countdown-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px 45px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-top: 20px;
+            border: 3px solid #fbcfe8;
+            backdrop-filter: blur(5px);
+        }
+
+        #timer {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #4f46e5;
+            letter-spacing: 2px;
+        }
+
+        .message {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #555;
+            margin: 0 0 10px 0;
+        }
+
+        /* --- BOTONES --- */
+        .btn {
+            margin-top: 25px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: white;
+            background-color: #db2777;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(219, 39, 119, 0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background-color: #be185d;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(219, 39, 119, 0.6);
+        }
+
+        /* --- VISTA SECRETA (Sorpresa) --- */
+        #secret-view {
+            display: none; /* Oculto al inicio */
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 25px;
+            border: 4px dashed #db2777;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            max-width: 600px;
+        }
+
+        #secret-view h2 {
+            color: #db2777;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        #secret-view p {
+            font-size: 1.6rem;
+            color: #4f46e5;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="rain-container"></div>
+
+    <div class="view-container" id="main-view">
+        <h1>¡Feliz Cumpleaños Monse!</h1>
+
+        <div class="photo-container">
+            <img src="tu-foto-aqui.jpg" alt="Foto de Monse">
+        </div>
+
+        <div class="countdown-container">
+            <p class="message">Faltan exactamente:</p>
+            <div id="timer">Calculando...</div>
+        </div>
+
+        <button class="btn" id="btn-surprise">Ver mi regalo antes de tiempo click aquí XD</button>
+    </div>
+
+    <div class="view-container" id="secret-view">
+        <h2>¡Eres muy muy curiosa mi ratoncita kurylov3!</h2>
+        <p>Solo te digo que tu carrito de la compra de MercadoLibre no esté vacío para el 22 de febrero...digo quien sabe a lo mejor todo lo que tengas añadido que no pase en total de 80€ alguien te lo puede comprar toditito ya sea maquillaje, chocolates toditito</p>
+        
+        <button class="btn" id="btn-back">Volver al contador </button>
+    </div>
+
+    <script>
+        // Dos listas de cosas para llover
+        const lluviaNormal = ['🎁', '💸', '🍫', '💰', '🍬', '💵', '🎉'];
+        const lluviaRomantica = ['Te amo ❤️', 'Mi ratoncita 🐭', '😍', 'Te adoro ✨', '💕', '🛍️ MercadoLibre', '💖'];
+        
+        // Empieza con la normal
+        let elementosLluvia = lluviaNormal;
+
+        // Función que crea la lluvia
+        function createRain() {
+            const container = document.getElementById('rain-container');
+            const item = document.createElement('div');
+            item.classList.add('falling-item');
+
+            // Elegir un elemento al azar de la lista actual
+            const textoLluvia = elementosLluvia[Math.floor(Math.random() * elementosLluvia.length)];
+            item.innerText = textoLluvia;
+
+            // Diferenciar si es texto o emoji para el tamaño y color
+            if (textoLluvia.length > 2) {
+                item.style.fontSize = (Math.random() * 10 + 18) + 'px'; // Texto un poco más pequeño
+                item.style.color = '#db2777'; // Color rosa para el texto
+            } else {
+                item.style.fontSize = (Math.random() * 20 + 25) + 'px'; // Emojis más grandes
+            }
+
+            // Aleatorizar posición, tamaño y velocidad
+            item.style.left = Math.random() * 95 + 'vw';
+            const duration = Math.random() * 4 + 4; 
+            item.style.animationDuration = duration + 's';
+            
+            container.appendChild(item);
+
+            // Eliminar elemento después de caer
+            setTimeout(() => {
+                item.remove();
+            }, duration * 1000);
+        }
+
+        // Llover cada 350 milisegundos
+        setInterval(createRain, 350);
+
+        // --- LÓGICA DE LOS BOTONES ---
+        const mainView = document.getElementById('main-view');
+        const secretView = document.getElementById('secret-view');
+
+        // Cuando hace click en "Ver regalo"
+        document.getElementById('btn-surprise').addEventListener('click', () => {
+            mainView.style.display = 'none'; // Oculta contador
+            secretView.style.display = 'flex'; // Muestra secreto
+            elementosLluvia = lluviaRomantica; // Cambia la lluvia a cosas románticas
+        });
+
+        // Cuando hace click en "Volver"
+        document.getElementById('btn-back').addEventListener('click', () => {
+            secretView.style.display = 'none'; // Oculta secreto
+            mainView.style.display = 'flex'; // Muestra contador
+            elementosLluvia = lluviaNormal; // Vuelve la lluvia de dinero/regalos
+        });
+    </script>
+
+    <script>
+        const countDownDate = new Date("Feb 22, 2026 00:00:00").getTime();
+
+        const updateTimer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            const d = days.toString().padStart(2, '0');
+            const h = hours.toString().padStart(2, '0');
+            const m = minutes.toString().padStart(2, '0');
+            const s = seconds.toString().padStart(2, '0');
+
+            document.getElementById("timer").innerHTML = `${d}d : ${h}h : ${m}m : ${s}s`;
+
+            if (distance < 0) {
+                clearInterval(updateTimer);
+                document.getElementById("timer").innerHTML = "¡ES HOY! 🥳🎉🎁💸";
+                document.querySelector(".message").style.display = "none";
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>
